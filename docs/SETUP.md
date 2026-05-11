@@ -115,10 +115,12 @@ if ! command -v git >/dev/null 2>&1; then
     apt-get update && apt-get install -y git
   fi
 fi
-git clone https://github.com/YOUR_GITHUB_USERNAME/hermes-android-sms-gateway.git
+git clone https://github.com/nxjaime/hermes-android-sms-gateway.git
 cd hermes-android-sms-gateway
 ./install.sh
 ```
+
+If you fork this repo to your own account, replace `nxjaime` with your GitHub username.
 
 The installer writes the config to:
 - `~/.config/hermes-android-sms-gateway/config.env`

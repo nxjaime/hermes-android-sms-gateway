@@ -79,13 +79,13 @@ Note:
 - if you only see microphone permission on `Termux`, that is normal
 - SMS permission belongs to the separate `Termux:API` app
 
-Step 4. Verify the phone can send SMS directly:
+Step 3. Verify the phone can send SMS directly:
 
 ```bash
 termux-sms-send -n YOUR_NUMBER "Test from phone"
 ```
 
-Step 4a. Start Termux SSH and confirm the listening port:
+Step 4. Start Termux SSH and confirm the listening port:
 
 Before testing SSH login, set a Termux password once:
 
@@ -144,10 +144,12 @@ if ! command -v git >/dev/null 2>&1; then
     apt-get update && apt-get install -y git
   fi
 fi
-git clone https://github.com/YOUR_GITHUB_USERNAME/hermes-android-sms-gateway.git
+git clone https://github.com/nxjaime/hermes-android-sms-gateway.git
 cd hermes-android-sms-gateway
 ./install.sh
 ```
+
+If you fork this repo to your own account, replace `nxjaime` with your GitHub username.
 
 Step 6. Follow the prompts. The installer will:
 - collect your phone username and Tailscale IP
@@ -158,7 +160,13 @@ Step 6. Follow the prompts. The installer will:
 
 Step 7. On the phone, run the printed bootstrap commands.
 
-Step 8. Back on the VPS, test end to end:
+Step 8. Back on the VPS, verify SSH first:
+
+```bash
+phone-gateway-check --ssh
+```
+
+Step 9. Send a test SMS:
 
 ```bash
 send-phone-sms 5551234567 "Test from my phone through Hermes"
