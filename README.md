@@ -92,9 +92,15 @@ sshd
 ss -tlnp | grep 8022
 ```
 
+If `ss` returns `Cannot open netlink socket: Permission denied`, try this fallback:
+
+```bash
+netstat -tln | grep 8022
+```
+
 Expected:
 - `sshd` may print nothing
-- the second command should show SSH listening on port `8022`
+- either the `ss` command or the `netstat` fallback should show SSH listening on port `8022`
 
 If you get this error:
 

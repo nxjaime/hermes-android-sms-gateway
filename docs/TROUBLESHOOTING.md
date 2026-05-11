@@ -38,6 +38,12 @@ pgrep -a sshd
 ss -tlnp | grep 8022
 ```
 
+If the `ss` command returns `Cannot open netlink socket: Permission denied`, try:
+
+```bash
+netstat -tln | grep 8022
+```
+
 Common causes:
 - wrong Tailscale IP
 - sshd not running

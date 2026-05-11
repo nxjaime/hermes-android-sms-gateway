@@ -80,11 +80,17 @@ If `ip addr show tailscale0` returns `Permission denied` or does not work on you
 - open the Tailscale Android app and copy the device IPv4 shown there
 - from your VPS, run `tailscale status` and find the phone's `100.x.x.x` address in the peer list
 
+If `ss -tlnp | grep 8022` returns `Cannot open netlink socket: Permission denied`, try this fallback:
+
+```bash
+netstat -tln | grep 8022
+```
+
 Verification:
 - note the Termux username from `whoami`
 - it will usually look something like `u0_a123`
 - note the Tailscale IPv4 address
-- confirm `sshd` is listening on port 8022
+- confirm SSH is listening on port 8022 using either `ss` or `netstat`
 - no output from `sshd` itself is normal
 
 ## 2. VPS setup
