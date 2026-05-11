@@ -44,8 +44,10 @@ Step 2. In Termux on the phone:
 
 ```bash
 pkg update
-pkg install termux-api openssh tailscale
+pkg install termux-api openssh
 ```
+
+Tailscale should be installed as the Android app, not with `pkg` inside Termux.
 
 Step 3. On the phone, grant permissions:
 - Settings -> Apps -> Termux:API -> Permissions -> Allow SMS

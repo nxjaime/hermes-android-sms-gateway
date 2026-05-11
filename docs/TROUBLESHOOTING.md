@@ -16,7 +16,7 @@ Check on PHONE:
 
 ```bash
 whoami
-tailscale ip -4
+ip addr show tailscale0
 pgrep -a sshd
 ss -tlnp | grep 8022
 ```
@@ -26,6 +26,22 @@ Common causes:
 - sshd not running
 - phone not on the same tailnet
 - Android killed Termux in the background
+
+## `unable to locate package tailscale`
+
+That is expected on many Termux installs.
+
+Use:
+
+```bash
+pkg install termux-api openssh
+```
+
+Then use the Tailscale Android app for connectivity. To inspect the phone's Tailscale address from Termux, try:
+
+```bash
+ip addr show tailscale0
+```
 
 ## SSH says permission denied
 

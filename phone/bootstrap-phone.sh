@@ -3,7 +3,7 @@ set -euo pipefail
 
 mkdir -p "$HOME/bin" "$HOME/.ssh"
 pkg update
-pkg install -y termux-api openssh tailscale
+pkg install -y termux-api openssh
 
 cat > "$HOME/bin/send_sms.sh" <<'EOF'
 #!/data/data/com.termux/files/usr/bin/bash
@@ -27,5 +27,5 @@ echo "Starting sshd"
 sshd
 echo "Verification"
 whoami
-tailscale ip -4 || true
+ip addr show tailscale0 || true
 ss -tlnp | grep 8022 || true

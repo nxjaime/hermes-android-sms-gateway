@@ -11,8 +11,10 @@ Run on PHONE in Termux:
 
 ```bash
 pkg update
-pkg install termux-api openssh tailscale
+pkg install termux-api openssh
 ```
+
+Use the Tailscale Android app on the phone. Do not expect `pkg install tailscale` to work in Termux.
 
 Android settings on PHONE:
 - Settings -> Apps -> Termux:API -> Permissions -> Allow SMS
@@ -31,14 +33,14 @@ Start SSH and collect identity data on PHONE:
 
 ```bash
 whoami
-tailscale ip -4
+ip addr show tailscale0
 sshd
 ss -tlnp | grep 8022
 ```
 
 Verification:
 - note the Termux username from `whoami`
-- note the Tailscale IPv4 address
+- note the Tailscale IPv4 address from `tailscale0`
 - confirm `sshd` is listening on port 8022
 - no output from `sshd` itself is normal
 
