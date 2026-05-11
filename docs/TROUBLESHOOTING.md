@@ -123,6 +123,19 @@ Run on VPS:
 ./install.sh
 ```
 
+## `git: not found`
+
+If you see this while following the repo instructions, make sure you are on the VPS, not the phone.
+The repository clone and installer steps are meant to run on the VPS.
+
+On VPS:
+
+```bash
+command -v git >/dev/null 2>&1 || sudo apt-get update && sudo apt-get install -y git
+```
+
+Then continue with the clone step on the VPS.
+
 ## `send-phone-sms` works manually but not from Hermes
 
 Check:

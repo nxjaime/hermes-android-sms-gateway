@@ -100,9 +100,12 @@ Clean fix:
 - reinstall both `Termux` and `Termux:API` from F-Droid
 - then repeat the setup from the README
 
-Step 5. Clone this repo on your VPS and run the installer:
+Step 5. Stop using the phone for now and switch to your VPS.
+
+Run on VPS:
 
 ```bash
+command -v git >/dev/null 2>&1 || sudo apt-get update && sudo apt-get install -y git
 git clone https://github.com/YOUR_GITHUB_USERNAME/hermes-android-sms-gateway.git
 cd hermes-android-sms-gateway
 ./install.sh
