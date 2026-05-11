@@ -44,6 +44,12 @@ If the `ss` command returns `Cannot open netlink socket: Permission denied`, try
 netstat -tln | grep 8022
 ```
 
+If `netstat` also fails or reports no TCP support, try:
+
+```bash
+ssh -p 8022 localhost
+```
+
 Common causes:
 - wrong Tailscale IP
 - sshd not running

@@ -98,9 +98,16 @@ If `ss` returns `Cannot open netlink socket: Permission denied`, try this fallba
 netstat -tln | grep 8022
 ```
 
+If `netstat` also fails on your phone, use this practical verification instead:
+
+```bash
+ssh -p 8022 localhost
+```
+
 Expected:
 - `sshd` may print nothing
-- either the `ss` command or the `netstat` fallback should show SSH listening on port `8022`
+- either the `ss` command or the `netstat` fallback may show SSH listening on port `8022`
+- if both inspection commands are unusable, `ssh -p 8022 localhost` should at least reach an SSH login prompt or host key prompt, which confirms the port is active
 
 If you get this error:
 

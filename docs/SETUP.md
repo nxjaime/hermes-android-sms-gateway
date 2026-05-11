@@ -86,11 +86,17 @@ If `ss -tlnp | grep 8022` returns `Cannot open netlink socket: Permission denied
 netstat -tln | grep 8022
 ```
 
+If `netstat` also fails or says there is no TCP support, use this instead:
+
+```bash
+ssh -p 8022 localhost
+```
+
 Verification:
 - note the Termux username from `whoami`
 - it will usually look something like `u0_a123`
 - note the Tailscale IPv4 address
-- confirm SSH is listening on port 8022 using either `ss` or `netstat`
+- confirm SSH is listening on port 8022 using either `ss`, `netstat`, or a successful `ssh -p 8022 localhost` login prompt
 - no output from `sshd` itself is normal
 
 ## 2. VPS setup
