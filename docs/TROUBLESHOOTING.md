@@ -27,6 +27,20 @@ Clean fix:
 - reinstall both `Termux` and `Termux:API` from F-Droid
 - restart the setup from the beginning
 
+## `ssh -p 8022 localhost` asks for a password
+
+That is normal.
+Termux SSH uses the Termux account password unless you later switch to SSH keys.
+
+If you have not set one yet, create it in Termux:
+
+```bash
+passwd
+```
+
+Then use that password for the localhost SSH test and for initial VPS to phone SSH login.
+Later in the setup, the repo switches you to SSH keys so you do not need to keep using the password.
+
 ## SSH times out
 
 Check on PHONE:

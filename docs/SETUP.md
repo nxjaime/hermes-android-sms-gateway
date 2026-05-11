@@ -72,6 +72,7 @@ Start SSH and collect identity data on PHONE:
 ```bash
 whoami
 ip addr show tailscale0
+passwd
 sshd
 ss -tlnp | grep 8022
 ```
@@ -96,6 +97,7 @@ Verification:
 - note the Termux username from `whoami`
 - it will usually look something like `u0_a123`
 - note the Tailscale IPv4 address
+- `passwd` should prompt you to create a Termux login password for SSH
 - confirm SSH is listening on port 8022 using either `ss`, `netstat`, or a successful `ssh -p 8022 localhost` login prompt
 - no output from `sshd` itself is normal
 

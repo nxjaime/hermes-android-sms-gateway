@@ -87,6 +87,14 @@ termux-sms-send -n YOUR_NUMBER "Test from phone"
 
 Step 4a. Start Termux SSH and confirm the listening port:
 
+Before testing SSH login, set a Termux password once:
+
+```bash
+passwd
+```
+
+Then run:
+
 ```bash
 sshd
 ss -tlnp | grep 8022
