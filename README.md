@@ -144,12 +144,13 @@ if ! command -v git >/dev/null 2>&1; then
     apt-get update && apt-get install -y git
   fi
 fi
-git clone https://github.com/nxjaime/hermes-android-sms-gateway.git
+git clone https://github.com/YOUR_GITHUB_USERNAME/hermes-android-sms-gateway.git
 cd hermes-android-sms-gateway
 ./install.sh
 ```
 
-If you fork this repo to your own account, replace `nxjaime` with your GitHub username.
+Replace `YOUR_GITHUB_USERNAME` with the account that owns the repo you are cloning.
+If you are reading this on GitHub, you can also click Code and copy the HTTPS clone URL directly.
 
 Step 6. Follow the prompts. The installer will:
 - collect your phone username and Tailscale IP
