@@ -2,39 +2,36 @@
 
 Send SMS from your real Android phone number through Hermes, Termux, and Tailscale.
 
-This project turns an Android phone into a private SMS gateway.
-Hermes runs on a VPS or Linux machine, SSHes into your phone over Tailscale, and asks Termux:API to send the text through your phone's normal SMS stack.
-
-This is a good fit for:
-- personal ops
-- alerts
-- low to moderate volume texting
-- sending from your real number
-
-This is not a good fit for:
-- bulk marketing
-- mass texting
-- compliance heavy messaging
+This project turns an Android phone into a private SMS gateway. Hermes runs on a VPS or Linux machine, SSHes into your phone over Tailscale, and asks Termux:API to send the text through your phone's normal SMS stack.
 
 ## Architecture
 
-```
+```text
 Hermes / VPS -> Tailscale -> SSH -> Termux -> Termux:API -> Android SMS -> carrier
 ```
+
+## Good fit
+
+- personal ops
+- alerts
+- low to moderate volume texting
+- sending from your real phone number
+- Hermes-driven workflows on a VPS
+
+## Not a good fit
+
+- bulk marketing
+- mass texting
+- compliance-heavy messaging
+- high-volume outbound campaigns
 
 ## What you need
 
 Phone side:
 - Android phone with active SMS service
-- Termux app
-- Termux:API companion app
+- Termux
+- Termux:API
 - Tailscale Android app
-
-Important:
-- Termux and Termux:API are separate apps
-- install both from the same source
-- preferred source is F-Droid
-- do not mix a Play Store Termux install with an F-Droid Termux:API install
 
 VPS side:
 - Linux machine
@@ -42,52 +39,69 @@ VPS side:
 - Tailscale on the same tailnet as the phone
 - bash
 
+Important:
+- Termux and Termux:API are separate apps
+- install both from the same source
+- preferred source is F-Droid for both
+- do not mix a Play Store Termux install with an F-Droid Termux:API install
+
 ## Quick start
 
-Step 1. On the phone, install both Android apps:
+### 1. On PHONE, install the Android apps
+
+Install:
 - `Termux`
 - `Termux:API`
+- `Tailscale`
 
-Use the same source for both apps.
-Preferred: install both from F-Droid.
+Use the same source for `Termux` and `Termux:API`.
+Preferred: F-Droid for both.
 
-Important Samsung / Android note:
+Samsung notes:
 - `Termux:API` is available in F-Droid, not the Google Play Store
 - on some Samsung phones you may need to disable Auto Blocker temporarily to sideload F-Droid
-- you may also need to explicitly allow restricted settings access before Android will let you grant SMS permission to `Termux:API`
-- do this at your own risk and re-enable your preferred protections afterward
+- you may also need to allow restricted settings before Android will let you grant SMS permission to `Termux:API`
 
 Why this matters:
-- `Termux` and `Termux:API` are different apps
-- `Termux` itself may not show SMS permission because the SMS access lives in `Termux:API`
-- mixed install sources can fail because the apps must be signed compatibly to work together
+- `Termux` itself may only show microphone permission
+- SMS permission belongs to the separate `Termux:API` app
+- mixed install sources can break plugin access
 
-Step 2. In Termux on the phone:
+### 2. On PHONE in Termux, install packages
 
 ```bash
 pkg update
 pkg install termux-api openssh
 ```
 
-Tailscale should be installed as the Android app, not with `pkg` inside Termux.
+Do not try `pkg install tailscale` in Termux for this workflow. Use the Android Tailscale app.
 
-Android settings on PHONE:
-- Settings -> Apps -> Termux:API -> Permissions -> Allow SMS
-- Settings -> Apps -> Termux -> Battery -> Unrestricted
+In Android settings:
+- Apps -> Termux:API -> Permissions -> Allow SMS
+- Apps -> Termux -> Battery -> Unrestricted
 
-Note:
-- if you only see microphone permission on `Termux`, that is normal
-- SMS permission belongs to the separate `Termux:API` app
-
-Step 3. Verify the phone can send SMS directly:
+### 3. On PHONE, verify direct SMS works
 
 ```bash
 termux-sms-send -n YOUR_NUMBER "Test from phone"
 ```
 
-Step 4. Start Termux SSH and confirm the listening port:
+If you see:
 
-Before testing SSH login, set a Termux password once:
+```text
+Termux:API is not yet available on Google Play
+```
+
+then your current Termux install is the Google Play build. Clean fix:
+- back up anything you need from Termux
+- uninstall `Termux`
+- uninstall any Termux plugins
+- reinstall both `Termux` and `Termux:API` from F-Droid
+- restart the setup
+
+### 4. On PHONE, start SSH and collect details
+
+First set a Termux password once:
 
 ```bash
 passwd
@@ -96,45 +110,38 @@ passwd
 Then run:
 
 ```bash
+whoami
+ip addr show tailscale0
 sshd
 ss -tlnp | grep 8022
 ```
 
-If `ss` returns `Cannot open netlink socket: Permission denied`, try this fallback:
+Expected:
+- `whoami` gives the Termux username, often something like `u0_a123`
+- `sshd` may print nothing
+- `ss` should show SSH listening on port `8022`
+
+If `ss` fails with `Cannot open netlink socket: Permission denied`, try:
 
 ```bash
 netstat -tln | grep 8022
 ```
 
-If `netstat` also fails on your phone, use this practical verification instead:
+If that also fails, use this practical check:
 
 ```bash
 ssh -p 8022 localhost
 ```
 
-Expected:
-- `sshd` may print nothing
-- either the `ss` command or the `netstat` fallback may show SSH listening on port `8022`
-- if both inspection commands are unusable, `ssh -p 8022 localhost` should at least reach an SSH login prompt or host key prompt, which confirms the port is active
+If `ip addr show tailscale0` fails, get the phone IP from:
+- the Tailscale Android app
+- or `tailscale status` on the VPS
 
-If you get this error:
+### 5. Stop using the phone and switch to the VPS
 
-```text
-Termux:API is not yet available on Google Play
-```
+This is the handoff point. The next commands run on the VPS, not on the phone.
 
-that means your current Termux install is the Google Play build and it cannot use the Termux:API companion app for this workflow.
-
-Clean fix:
-- back up anything you need from Termux
-- uninstall `Termux`
-- uninstall any Termux plugins
-- reinstall both `Termux` and `Termux:API` from F-Droid
-- then repeat the setup from the README
-
-Step 5. Stop using the phone for now and switch to your VPS.
-
-Run on VPS:
+If `git` is not installed on the VPS:
 
 ```bash
 if ! command -v git >/dev/null 2>&1; then
@@ -144,31 +151,38 @@ if ! command -v git >/dev/null 2>&1; then
     apt-get update && apt-get install -y git
   fi
 fi
-git clone https://github.com/YOUR_GITHUB_USERNAME/hermes-android-sms-gateway.git
+```
+
+Then clone this repo. Best option: click GitHub's Code button and copy the HTTPS URL.
+
+```bash
+git clone <PASTE_THE_HTTPS_CLONE_URL_FROM_GITHUB>
 cd hermes-android-sms-gateway
 ./install.sh
 ```
 
-Replace `YOUR_GITHUB_USERNAME` with the account that owns the repo you are cloning.
-If you are reading this on GitHub, you can also click Code and copy the HTTPS clone URL directly.
+Notes:
+- many VPS sessions run as `root` and do not have `sudo`
+- do not type a literal placeholder GitHub username
+- if you already have the repo, use `git pull` instead of cloning again
 
-Step 6. Follow the prompts. The installer will:
+### 6. On the VPS, follow the installer prompts
+
+The installer will:
 - collect your phone username and Tailscale IP
-- create a config file
-- install a reusable wrapper command on the VPS
+- write config to `~/.config/hermes-android-sms-gateway/config.env`
+- install `send-phone-sms` and `phone-gateway-check` into `~/.local/bin`
 - generate an SSH key if needed
-- print the exact next commands to run on the phone
+- print the public key you must add on the phone
 
-Step 7. On the phone, finish the phone-side script setup.
+### 7. Back on PHONE, finish the phone-side setup
 
-Important:
-- `phone-gateway-check --ssh` only proves SSH access and that `termux-sms-send` exists
-- `send-phone-sms` also requires `~/bin/send_sms.sh` to exist on the phone
+Add the printed public key to `~/.ssh/authorized_keys` in Termux.
 
-Create it on PHONE in Termux:
+Then create the phone-side send script:
 
 ```bash
-mkdir -p ~/bin
+mkdir -p ~/.ssh ~/bin
 nano ~/bin/send_sms.sh
 ```
 
@@ -186,18 +200,40 @@ termux-sms-send -n "$number" "$message"
 Then run:
 
 ```bash
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
 chmod +x ~/bin/send_sms.sh
 ```
 
-You can do this manually from the block above, or copy and run `phone/bootstrap-phone.sh` from this repo inside Termux.
+Important:
+- `phone-gateway-check --ssh` only proves SSH access and that `termux-sms-send` exists
+- `send-phone-sms` also requires `~/bin/send_sms.sh` to exist on the phone
+- if you skip this step, send will fail with `~/bin/send_sms.sh: No such file or directory`
 
-Step 8. Back on the VPS, verify SSH first:
+You can also copy and run `phone/bootstrap-phone.sh` from this repo inside Termux.
+
+### 8. Back on VPS, verify SSH before the first SMS
 
 ```bash
 phone-gateway-check --ssh
 ```
 
-Step 9. Send a test SMS:
+Expected output includes:
+- `connected`
+- the Termux username
+- `termux-api-ok`
+
+Notes:
+- on first connect, the helper auto-accepts a brand new host key for the phone
+- if the phone was reinstalled or the SSH host key changed, remove the stale key from `~/.ssh/known_hosts`
+
+Example:
+
+```bash
+ssh-keygen -R PHONE_IP
+```
+
+### 9. Send a test SMS from the VPS
 
 ```bash
 send-phone-sms 5551234567 "Test from my phone through Hermes"
@@ -205,55 +241,74 @@ send-phone-sms 5551234567 "Test from my phone through Hermes"
 
 ## Main commands
 
-Send a text:
+Send a text from the VPS:
 
 ```bash
 send-phone-sms 5551234567 "Hello from Hermes"
 ```
 
-Check phone reachability:
+Check reachability from the VPS:
 
 ```bash
 phone-gateway-check
-```
-
-Dry run the SSH path without sending a text:
-
-```bash
 phone-gateway-check --ssh
 ```
 
-Notes:
-- on the first successful SSH test, the helper auto-accepts a new host key for the phone
-- if the phone was reinstalled or its SSH host key changed, you may still need to remove the old entry from `~/.ssh/known_hosts`
+Rule of thumb:
+- PHONE / Termux: `termux-sms-send`, `sshd`, `~/bin/send_sms.sh`
+- VPS: `phone-gateway-check`, `send-phone-sms`
 
-## Google Messages Web?
+## Using this from Hermes
 
-It can be automated, but it is not the recommended foundation for unattended use.
+This works best as a Hermes skill so the agent knows the correct command and health check for this environment.
 
-Reasons:
-- browser sessions expire
-- QR pairing can break automation
-- UI changes can break scripts
-- popups and focus issues make it brittle
+Example local skill behavior:
+- verify the gateway with `phone-gateway-check --ssh` when needed
+- send the message with `send-phone-sms PHONE_NUMBER "message"`
 
-This repo uses the more reliable private path:
+If you want contact lookup before texting, pair this gateway with a Google Workspace integration.
+That lets Hermes pull numbers from Google Contacts first, then send the SMS through this gateway.
 
-```
-SSH -> Termux -> Termux:API
-```
+Recommended flow:
+1. look up the contact in Google Contacts
+2. confirm the right number if needed
+3. run `send-phone-sms`
 
 ## Files
 
 - `install.sh` - guided installer for the VPS
 - `bin/send-phone-sms` - wrapper command installed on the VPS
 - `bin/phone-gateway-check` - health check for the phone gateway
-- `phone/bootstrap-phone.sh` - helper bootstrap script to run in Termux
-- `phone/send_sms.sh` - script the VPS calls on the phone
+- `phone/bootstrap-phone.sh` - helper bootstrap script for Termux
+- `phone/send_sms.sh` - phone-side script the VPS calls
 - `.env.example` - VPS configuration template
-- `docs/SETUP.md` - detailed step by step setup
+- `docs/SETUP.md` - detailed setup guide
 - `docs/TROUBLESHOOTING.md` - common fixes
 - `Handoff.md` - project state and next improvements
+
+## Common failure patterns
+
+- `sudo: command not found`
+  - common on root-run VPS sessions; use `apt-get` directly
+
+- `Repository not found` during clone
+  - you used a literal placeholder URL instead of the real GitHub clone URL
+
+- `Config not found`
+  - rerun `./install.sh` from the repo on the VPS
+  - config lives at `~/.config/hermes-android-sms-gateway/config.env`
+
+- `Host key verification failed`
+  - remove the stale host key from `~/.ssh/known_hosts`
+
+- `~/bin/send_sms.sh: No such file or directory`
+  - create the phone-side script in Termux and make it executable
+
+- `phone-gateway-check: command not found`
+  - you ran a VPS command on the phone
+
+- SSH timeout
+  - confirm Tailscale IP, `sshd`, and port `8022` on the phone
 
 ## Security notes
 
