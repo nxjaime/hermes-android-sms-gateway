@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CONFIG_PATH="${HERMES_ANDROID_SMS_CONFIG:-$ROOT_DIR/.env}"
+
+if [ ! -f "$CONFIG_PATH" ]; then
+  echo "Config not found: $CONFIG_PATH" >&2
+  echo "Run ./install.sh first." >&2
+  exit 1
+fi
+
+# shellcheck disable=SC1090
+source "$CONFIG_PATH"
+
+if [ "$#" -lt 2 ]; then
+  echo "Usage: send-phone-sms <number> <message>" >&2
+  exit 1
+fi
+
+number="$1"
+shift
+message="$*"
+key_args=()
+if [ -n "${PHONE_KEY_PATH:-}" ]; then
+  key_args=(-i "$PHONE_KEY_PATH")
+fi
+
+ssh -o BatchMode=yes -o ConnectTimeout=10 -p "$PHONE_PORT" "${key_args[@]}"           "${PHONE_USER}@${PHONE_IP}"           "~/bin/send_sms.sh "$number" "$message""
