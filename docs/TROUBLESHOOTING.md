@@ -162,6 +162,25 @@ Run on VPS:
 ./install.sh
 ```
 
+## `phone-gateway-check` says config not found
+
+If you see a path like:
+
+```text
+/root/.config/hermes-android-sms-gateway/config.env
+```
+
+then the installer has not been run successfully yet, or you are still using an older installed helper script from before this fix.
+
+Run on VPS from the cloned repo directory:
+
+```bash
+cd ~/hermes-android-sms-gateway
+./install.sh
+```
+
+If you cloned the repo somewhere else, `cd` into that path instead.
+
 ## `git: not found`
 
 If you see this while following the repo instructions, make sure you are on the VPS, not the phone.

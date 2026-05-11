@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-CONFIG_PATH="${HERMES_ANDROID_SMS_CONFIG:-$ROOT_DIR/.env}"
+CONFIG_PATH="${HERMES_ANDROID_SMS_CONFIG:-$HOME/.config/hermes-android-sms-gateway/config.env}"
 
 if [ ! -f "$CONFIG_PATH" ]; then
   echo "Config not found: $CONFIG_PATH" >&2

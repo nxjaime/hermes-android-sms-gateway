@@ -3,11 +3,13 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BIN_DIR="$HOME/.local/bin"
-CONFIG_PATH="$ROOT_DIR/.env"
+CONFIG_DIR="$HOME/.config/hermes-android-sms-gateway"
+CONFIG_PATH="$CONFIG_DIR/config.env"
 KEY_PATH_DEFAULT="$HOME/.ssh/phone_sms"
 
 mkdir -p "$BIN_DIR"
 mkdir -p "$HOME/.ssh"
+mkdir -p "$CONFIG_DIR"
 
 prompt() {
   local var_name="$1"

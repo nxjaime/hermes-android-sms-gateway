@@ -114,7 +114,10 @@ cd hermes-android-sms-gateway
 ./install.sh
 ```
 
-The installer writes `.env` and installs two commands into `~/.local/bin`:
+The installer writes the config to:
+- `~/.config/hermes-android-sms-gateway/config.env`
+
+It also installs two commands into `~/.local/bin`:
 - `send-phone-sms`
 - `phone-gateway-check`
 
