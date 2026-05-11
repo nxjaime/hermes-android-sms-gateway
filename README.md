@@ -42,7 +42,7 @@ VPS side:
 Important:
 - Termux and Termux:API are separate apps
 - install both from the same source
-- preferred source is F-Droid for both
+- F-Droid is required for both apps in this workflow
 - do not mix a Play Store Termux install with an F-Droid Termux:API install
 
 ## Quick start
@@ -55,7 +55,7 @@ Install:
 - `Tailscale`
 
 Use the same source for `Termux` and `Termux:API`.
-Preferred: F-Droid for both.
+Required: F-Droid for both.
 
 Samsung notes:
 - `Termux:API` is available in F-Droid, not the Google Play Store

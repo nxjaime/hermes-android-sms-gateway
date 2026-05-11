@@ -119,7 +119,7 @@ Why:
 If you already installed `Termux` from Google Play, the clean fix is usually:
 - back up anything you need from Termux
 - uninstall Termux and any Termux plugins
-- reinstall both `Termux` and `Termux:API` from the same source, preferably F-Droid
+- reinstall both `Termux` and `Termux:API` from F-Droid. For this workflow, F-Droid is required for both apps.
 
 Samsung note:
 - on some Samsung phones you may need to disable Auto Blocker temporarily to sideload F-Droid

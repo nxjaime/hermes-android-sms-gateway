@@ -6,7 +6,7 @@ These steps assume:
 - you want Hermes to send SMS through your real Android number
 - you installed both `Termux` and `Termux:API` from the same source
 
-Preferred app source:
+Required app source:
 - F-Droid for both `Termux` and `Termux:API`
 
 Do not mix sources unless you know exactly what you are doing.
@@ -18,7 +18,7 @@ Install these Android apps on PHONE first:
 - `Termux`
 - `Termux:API`
 
-If you installed `Termux` from Google Play and cannot find a matching `Termux:API`, stop and reinstall both apps from the same source, preferably F-Droid.
+If you installed `Termux` from Google Play and cannot find a matching `Termux:API`, stop and reinstall both apps from F-Droid. For this workflow, F-Droid is required for both apps.
 
 Samsung specific note:
 - `Termux:API` is in F-Droid, not the Google Play Store
