@@ -78,6 +78,7 @@ ss -tlnp | grep 8022
 
 Verification:
 - note the Termux username from `whoami`
+- it will usually look something like `u0_a123`
 - note the Tailscale IPv4 address from `tailscale0`
 - confirm `sshd` is listening on port 8022
 - no output from `sshd` itself is normal

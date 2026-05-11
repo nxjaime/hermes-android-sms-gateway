@@ -27,7 +27,7 @@ echo
 echo "Hermes Android SMS Gateway installer"
 echo
 
-prompt PHONE_USER "Phone Termux username"
+prompt PHONE_USER "Phone Termux username from 'whoami'"
 prompt PHONE_IP "Phone Tailscale IPv4"
 prompt PHONE_PORT "Phone SSH port" "8022"
 prompt PHONE_KEY_PATH "SSH private key path on this VPS" "$KEY_PATH_DEFAULT"
