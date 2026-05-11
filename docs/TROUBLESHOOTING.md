@@ -15,6 +15,18 @@ Important:
 - `Termux` itself may not show SMS permission
 - SMS permission belongs to `Termux:API`
 
+## `Termux:API is not yet available on Google Play`
+
+If `termux-sms-send` returns this message, your current `Termux` app is the Google Play build.
+That build is not suitable for this workflow.
+
+Clean fix:
+- back up anything you need from Termux
+- uninstall `Termux`
+- uninstall any Termux plugins
+- reinstall both `Termux` and `Termux:API` from F-Droid
+- restart the setup from the beginning
+
 ## SSH times out
 
 Check on PHONE:

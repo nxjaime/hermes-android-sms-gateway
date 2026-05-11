@@ -49,6 +49,21 @@ Test direct SMS on PHONE:
 termux-sms-send -n YOUR_NUMBER "Test from Termux"
 ```
 
+If you see this error:
+
+```text
+Termux:API is not yet available on Google Play
+```
+
+then your current Termux app is the Google Play build and it is not suitable for this workflow.
+
+Clean fix:
+- back up anything you need from Termux
+- uninstall `Termux`
+- uninstall any Termux plugins
+- reinstall both `Termux` and `Termux:API` from F-Droid
+- then restart this setup from the top
+
 Verification:
 - you receive the SMS
 

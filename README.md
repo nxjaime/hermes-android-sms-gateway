@@ -85,6 +85,21 @@ Step 4. Verify the phone can send SMS directly:
 termux-sms-send -n YOUR_NUMBER "Test from phone"
 ```
 
+If you get this error:
+
+```text
+Termux:API is not yet available on Google Play
+```
+
+that means your current Termux install is the Google Play build and it cannot use the Termux:API companion app for this workflow.
+
+Clean fix:
+- back up anything you need from Termux
+- uninstall `Termux`
+- uninstall any Termux plugins
+- reinstall both `Termux` and `Termux:API` from F-Droid
+- then repeat the setup from the README
+
 Step 5. Clone this repo on your VPS and run the installer:
 
 ```bash
