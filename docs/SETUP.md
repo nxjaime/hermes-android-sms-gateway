@@ -76,10 +76,14 @@ sshd
 ss -tlnp | grep 8022
 ```
 
+If `ip addr show tailscale0` returns `Permission denied` or does not work on your phone, use one of these instead:
+- open the Tailscale Android app and copy the device IPv4 shown there
+- from your VPS, run `tailscale status` and find the phone's `100.x.x.x` address in the peer list
+
 Verification:
 - note the Termux username from `whoami`
 - it will usually look something like `u0_a123`
-- note the Tailscale IPv4 address from `tailscale0`
+- note the Tailscale IPv4 address
 - confirm `sshd` is listening on port 8022
 - no output from `sshd` itself is normal
 

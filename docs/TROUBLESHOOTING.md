@@ -54,11 +54,24 @@ Use:
 pkg install termux-api openssh
 ```
 
-Then use the Tailscale Android app for connectivity. To inspect the phone's Tailscale address from Termux, try:
+Then use the Tailscale Android app for connectivity. To inspect the phone's Tailscale address, try one of these:
 
 ```bash
 ip addr show tailscale0
 ```
+
+If that returns `Permission denied`, use one of these fallback methods instead:
+- open the Tailscale Android app and copy the device IPv4
+- from your VPS, run `tailscale status` and find the phone's `100.x.x.x` peer address
+
+## `Permission denied` when checking `tailscale0`
+
+Some Android and Samsung setups do not allow the Termux shell to read the interface details cleanly.
+That does not necessarily mean Tailscale is broken.
+
+Use one of these instead:
+- in the Tailscale Android app, open the device details and copy the `100.x.x.x` address
+- on the VPS, run `tailscale status` and locate the phone in the peer list
 
 ## `I only see Termux in the Play Store`
 
