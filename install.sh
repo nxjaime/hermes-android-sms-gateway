@@ -70,4 +70,4 @@ echo "Then copy this repo's phone scripts to your phone or paste the contents fr
 echo
 echo "After the phone is ready, test with:"
 echo "  phone-gateway-check --ssh"
-echo "  send-phone-sms 5551234567 "hello from my phone""
+echo '  send-phone-sms 5551234567 "hello from my phone"'

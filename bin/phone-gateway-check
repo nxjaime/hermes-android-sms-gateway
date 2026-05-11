@@ -33,12 +33,23 @@ if command -v tailscale >/dev/null 2>&1; then
   tailscale status --peers=false | sed -n '1,5p'
   echo
 fi
-echo "TCP check:"
-if command -v nc >/dev/null 2>&1; then
-  nc -vz "$PHONE_IP" "$PHONE_PORT"
-else
-  timeout 5 bash -lc "</dev/tcp/$PHONE_IP/$PHONE_PORT" && echo "port open" || {
-    echo "port check failed" >&2
-    exit 1
-  }
-fi
+        echo "TCP check:"
+        if command -v nc >/dev/null 2>&1; then
+          nc -vz -w 5 "$PHONE_IP" "$PHONE_PORT"
+        else
+          python3 - "$PHONE_IP" "$PHONE_PORT" <<'PY'
+import socket, sys
+host = sys.argv[1]
+port = int(sys.argv[2])
+s = socket.socket()
+s.settimeout(5)
+try:
+    s.connect((host, port))
+    print('port open')
+except Exception as e:
+    print(f'port check failed: {e}', file=sys.stderr)
+    raise SystemExit(1)
+finally:
+    s.close()
+PY
+        fi
