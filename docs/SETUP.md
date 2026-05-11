@@ -20,6 +20,12 @@ Install these Android apps on PHONE first:
 
 If you installed `Termux` from Google Play and cannot find a matching `Termux:API`, stop and reinstall both apps from the same source, preferably F-Droid.
 
+Samsung specific note:
+- `Termux:API` is in F-Droid, not the Google Play Store
+- on some Samsung phones you may need to disable Auto Blocker temporarily to sideload F-Droid
+- you may also need to allow restricted settings access before Android will allow SMS permission for `Termux:API`
+- make these changes at your own risk and re-enable your preferred protections after setup
+
 Run on PHONE in Termux:
 
 ```bash

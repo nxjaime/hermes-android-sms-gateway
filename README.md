@@ -51,6 +51,12 @@ Step 1. On the phone, install both Android apps:
 Use the same source for both apps.
 Preferred: install both from F-Droid.
 
+Important Samsung / Android note:
+- `Termux:API` is available in F-Droid, not the Google Play Store
+- on some Samsung phones you may need to disable Auto Blocker temporarily to sideload F-Droid
+- you may also need to explicitly allow restricted settings access before Android will let you grant SMS permission to `Termux:API`
+- do this at your own risk and re-enable your preferred protections afterward
+
 Why this matters:
 - `Termux` and `Termux:API` are different apps
 - `Termux` itself may not show SMS permission because the SMS access lives in `Termux:API`

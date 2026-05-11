@@ -63,11 +63,17 @@ Why:
 - the Termux maintainers document that the main app and plugin apps must come from the same signing source to work together
 - mixed sources can break plugin access
 - Google Play Termux is described by the maintainers as an experimental branch with missing functionality compared to the stable F-Droid build
+- `Termux:API` is in F-Droid, not the Google Play Store
 
 If you already installed `Termux` from Google Play, the clean fix is usually:
 - back up anything you need from Termux
 - uninstall Termux and any Termux plugins
 - reinstall both `Termux` and `Termux:API` from the same source, preferably F-Droid
+
+Samsung note:
+- on some Samsung phones you may need to disable Auto Blocker temporarily to sideload F-Droid
+- you may also need to allow restricted settings access before Android will allow SMS permission for `Termux:API`
+- do this at your own risk and re-enable your preferred protections afterward
 
 ## SSH says permission denied
 
