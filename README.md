@@ -85,6 +85,17 @@ Step 4. Verify the phone can send SMS directly:
 termux-sms-send -n YOUR_NUMBER "Test from phone"
 ```
 
+Step 4a. Start Termux SSH and confirm the listening port:
+
+```bash
+sshd
+ss -tlnp | grep 8022
+```
+
+Expected:
+- `sshd` may print nothing
+- the second command should show SSH listening on port `8022`
+
 If you get this error:
 
 ```text
