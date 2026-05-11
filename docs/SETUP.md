@@ -108,7 +108,13 @@ Stop using the phone for this section and switch to your VPS.
 Run on VPS:
 
 ```bash
-command -v git >/dev/null 2>&1 || sudo apt-get update && sudo apt-get install -y git
+if ! command -v git >/dev/null 2>&1; then
+  if command -v sudo >/dev/null 2>&1; then
+    sudo apt-get update && sudo apt-get install -y git
+  else
+    apt-get update && apt-get install -y git
+  fi
+fi
 git clone https://github.com/YOUR_GITHUB_USERNAME/hermes-android-sms-gateway.git
 cd hermes-android-sms-gateway
 ./install.sh
@@ -177,6 +183,10 @@ Expected:
 - SSH command prints `connected`
 - SSH command prints the Termux username
 - SSH command prints `termux-api-ok`
+
+Notes:
+- on the first successful SSH test, the helper auto-accepts a new host key for the phone
+- if you get `Host key verification failed`, remove the stale key for the phone IP from `~/.ssh/known_hosts` and run the check again
 
 ## 6. Send a test SMS from the VPS
 

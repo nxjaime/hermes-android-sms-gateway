@@ -137,7 +137,13 @@ Step 5. Stop using the phone for now and switch to your VPS.
 Run on VPS:
 
 ```bash
-command -v git >/dev/null 2>&1 || sudo apt-get update && sudo apt-get install -y git
+if ! command -v git >/dev/null 2>&1; then
+  if command -v sudo >/dev/null 2>&1; then
+    sudo apt-get update && sudo apt-get install -y git
+  else
+    apt-get update && apt-get install -y git
+  fi
+fi
 git clone https://github.com/YOUR_GITHUB_USERNAME/hermes-android-sms-gateway.git
 cd hermes-android-sms-gateway
 ./install.sh
@@ -177,6 +183,10 @@ Dry run the SSH path without sending a text:
 ```bash
 phone-gateway-check --ssh
 ```
+
+Notes:
+- on the first successful SSH test, the helper auto-accepts a new host key for the phone
+- if the phone was reinstalled or its SSH host key changed, you may still need to remove the old entry from `~/.ssh/known_hosts`
 
 ## Google Messages Web?
 

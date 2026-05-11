@@ -25,6 +25,6 @@ if [ -n "${PHONE_KEY_PATH:-}" ]; then
   key_args=(-i "$PHONE_KEY_PATH")
 fi
 
-ssh -o BatchMode=yes -o ConnectTimeout=10 -p "$PHONE_PORT" "${key_args[@]}" \
+ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 -p "$PHONE_PORT" "${key_args[@]}" \
   "${PHONE_USER}@${PHONE_IP}" \
   "~/bin/send_sms.sh \"$number\" \"$message\""

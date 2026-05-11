@@ -18,7 +18,7 @@ if [ -n "${PHONE_KEY_PATH:-}" ]; then
 fi
 
 if [ "${1:-}" = "--ssh" ]; then
-  ssh -o BatchMode=yes -o ConnectTimeout=10 -p "$PHONE_PORT" "${key_args[@]}"             "${PHONE_USER}@${PHONE_IP}"             'echo connected && whoami && command -v termux-sms-send >/dev/null && echo termux-api-ok'
+  ssh -o BatchMode=yes -o StrictHostKeyChecking=accept-new -o ConnectTimeout=10 -p "$PHONE_PORT" "${key_args[@]}"             "${PHONE_USER}@${PHONE_IP}"             'echo connected && whoami && command -v termux-sms-send >/dev/null && echo termux-api-ok'
   exit 0
 fi
 

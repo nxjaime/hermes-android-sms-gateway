@@ -189,7 +189,13 @@ The repository clone and installer steps are meant to run on the VPS.
 On VPS:
 
 ```bash
-command -v git >/dev/null 2>&1 || sudo apt-get update && sudo apt-get install -y git
+if ! command -v git >/dev/null 2>&1; then
+  if command -v sudo >/dev/null 2>&1; then
+    sudo apt-get update && sudo apt-get install -y git
+  else
+    apt-get update && apt-get install -y git
+  fi
+fi
 ```
 
 Then continue with the clone step on the VPS.
@@ -198,5 +204,28 @@ Then continue with the clone step on the VPS.
 
 Check:
 - the command is in the PATH Hermes sees
-- the `.env` file exists in the repo root
-- `HERMES_ANDROID_SMS_CONFIG` is set if you moved the config file
+- the config file exists at `~/.config/hermes-android-sms-gateway/config.env`
+- `HERMES_ANDROID_SMS_CONFIG` is set only if you intentionally moved the config file elsewhere
+
+## `Host key verification failed`
+
+This usually means your VPS already has an older SSH host key saved for that phone IP.
+
+Fix on VPS:
+
+```bash
+ssh-keygen -R 100.125.228.38
+phone-gateway-check --ssh
+```
+
+Replace `100.125.228.38` with your phone's current Tailscale IP.
+
+If you want to inspect the old entry first:
+
+```bash
+ssh-keygen -F 100.125.228.38
+```
+
+Notes:
+- the helper scripts auto-accept a brand new host key on first connect
+- they still refuse a changed host key, which is the safe behavior
