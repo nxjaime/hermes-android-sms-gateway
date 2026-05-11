@@ -26,9 +26,15 @@ Hermes / VPS -> Tailscale -> SSH -> Termux -> Termux:API -> Android SMS -> carri
 
 Phone side:
 - Android phone with active SMS service
-- Termux
-- Termux:API app
-- Tailscale
+- Termux app
+- Termux:API companion app
+- Tailscale Android app
+
+Important:
+- Termux and Termux:API are separate apps
+- install both from the same source
+- preferred source is F-Droid
+- do not mix a Play Store Termux install with an F-Droid Termux:API install
 
 VPS side:
 - Linux machine
@@ -38,7 +44,17 @@ VPS side:
 
 ## Quick start
 
-Step 1. On the phone, install the Android app `Termux:API`.
+Step 1. On the phone, install both Android apps:
+- `Termux`
+- `Termux:API`
+
+Use the same source for both apps.
+Preferred: install both from F-Droid.
+
+Why this matters:
+- `Termux` and `Termux:API` are different apps
+- `Termux` itself may not show SMS permission because the SMS access lives in `Termux:API`
+- mixed install sources can fail because the apps must be signed compatibly to work together
 
 Step 2. In Termux on the phone:
 
@@ -49,9 +65,13 @@ pkg install termux-api openssh
 
 Tailscale should be installed as the Android app, not with `pkg` inside Termux.
 
-Step 3. On the phone, grant permissions:
+Android settings on PHONE:
 - Settings -> Apps -> Termux:API -> Permissions -> Allow SMS
 - Settings -> Apps -> Termux -> Battery -> Unrestricted
+
+Note:
+- if you only see microphone permission on `Termux`, that is normal
+- SMS permission belongs to the separate `Termux:API` app
 
 Step 4. Verify the phone can send SMS directly:
 

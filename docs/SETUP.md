@@ -4,8 +4,21 @@ These steps assume:
 - you already have Tailscale on the phone and VPS
 - both devices are on the same tailnet
 - you want Hermes to send SMS through your real Android number
+- you installed both `Termux` and `Termux:API` from the same source
+
+Preferred app source:
+- F-Droid for both `Termux` and `Termux:API`
+
+Do not mix sources unless you know exactly what you are doing.
+The Termux maintainers note that Termux and its plugins must come from the same signing source to work together.
 
 ## 1. Phone setup
+
+Install these Android apps on PHONE first:
+- `Termux`
+- `Termux:API`
+
+If you installed `Termux` from Google Play and cannot find a matching `Termux:API`, stop and reinstall both apps from the same source, preferably F-Droid.
 
 Run on PHONE in Termux:
 
@@ -19,6 +32,10 @@ Use the Tailscale Android app on the phone. Do not expect `pkg install tailscale
 Android settings on PHONE:
 - Settings -> Apps -> Termux:API -> Permissions -> Allow SMS
 - Settings -> Apps -> Termux -> Battery -> Unrestricted
+
+Note:
+- if `Termux` only shows microphone permission, that is normal
+- SMS permission belongs to the separate `Termux:API` app
 
 Test direct SMS on PHONE:
 

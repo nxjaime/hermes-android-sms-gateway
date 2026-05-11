@@ -10,6 +10,11 @@ pkg install termux-api
 
 Also make sure the Android app `Termux:API` is installed.
 
+Important:
+- `Termux` and `Termux:API` are different apps
+- `Termux` itself may not show SMS permission
+- SMS permission belongs to `Termux:API`
+
 ## SSH times out
 
 Check on PHONE:
@@ -42,6 +47,27 @@ Then use the Tailscale Android app for connectivity. To inspect the phone's Tail
 ```bash
 ip addr show tailscale0
 ```
+
+## `I only see Termux in the Play Store`
+
+That is a common point of confusion.
+
+`Termux` and `Termux:API` are separate apps.
+You need both.
+
+For this project, the safest path is:
+- install `Termux` from F-Droid
+- install `Termux:API` from F-Droid
+
+Why:
+- the Termux maintainers document that the main app and plugin apps must come from the same signing source to work together
+- mixed sources can break plugin access
+- Google Play Termux is described by the maintainers as an experimental branch with missing functionality compared to the stable F-Droid build
+
+If you already installed `Termux` from Google Play, the clean fix is usually:
+- back up anything you need from Termux
+- uninstall Termux and any Termux plugins
+- reinstall both `Termux` and `Termux:API` from the same source, preferably F-Droid
 
 ## SSH says permission denied
 
