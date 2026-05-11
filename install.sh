@@ -69,7 +69,8 @@ echo "pkg install termux-api openssh"
 echo "# Tailscale should already be installed as the Android app"
 echo "sshd"
 echo
-echo "Then copy this repo's phone scripts to your phone or paste the contents from docs/SETUP.md."
+echo "Then create ~/bin/send_sms.sh on the phone, or copy and run phone/bootstrap-phone.sh from this repo in Termux."
+echo "The VPS send-phone-sms command will fail until ~/bin/send_sms.sh exists on the phone."
 echo
 echo "After the phone is ready, test with:"
 echo "  phone-gateway-check --ssh"

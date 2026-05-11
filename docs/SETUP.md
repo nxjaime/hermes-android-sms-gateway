@@ -190,6 +190,7 @@ Expected:
 Notes:
 - on the first successful SSH test, the helper auto-accepts a new host key for the phone
 - if you get `Host key verification failed`, remove the stale key for the phone IP from `~/.ssh/known_hosts` and run the check again
+- this check does not create `~/bin/send_sms.sh` on the phone; the send command will fail until Step 4 is completed
 
 ## 6. Send a test SMS from the VPS
 

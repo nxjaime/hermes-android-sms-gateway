@@ -159,7 +159,37 @@ Step 6. Follow the prompts. The installer will:
 - generate an SSH key if needed
 - print the exact next commands to run on the phone
 
-Step 7. On the phone, run the printed bootstrap commands.
+Step 7. On the phone, finish the phone-side script setup.
+
+Important:
+- `phone-gateway-check --ssh` only proves SSH access and that `termux-sms-send` exists
+- `send-phone-sms` also requires `~/bin/send_sms.sh` to exist on the phone
+
+Create it on PHONE in Termux:
+
+```bash
+mkdir -p ~/bin
+nano ~/bin/send_sms.sh
+```
+
+Paste:
+
+```bash
+#!/data/data/com.termux/files/usr/bin/bash
+set -euo pipefail
+number="$1"
+shift
+message="$*"
+termux-sms-send -n "$number" "$message"
+```
+
+Then run:
+
+```bash
+chmod +x ~/bin/send_sms.sh
+```
+
+You can do this manually from the block above, or copy and run `phone/bootstrap-phone.sh` from this repo inside Termux.
 
 Step 8. Back on the VPS, verify SSH first:
 
