@@ -106,7 +106,7 @@ Run on VPS:
 
 ```bash
 command -v git >/dev/null 2>&1 || sudo apt-get update && sudo apt-get install -y git
-git clone https://github.com/YOUR_GITHUB_USERNAME/hermes-android-sms-gateway.git
+git clone https://github.com/nxjaime/hermes-android-sms-gateway.git
 cd hermes-android-sms-gateway
 ./install.sh
 ```
